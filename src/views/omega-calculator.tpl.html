@@ -1,0 +1,200 @@
+<section class="content">
+
+    <header class="row">
+        <h1>Marvel Heroes Tools
+            <small>Omega Calculator</small>
+        </h1>
+        <p>Use this calculator to determine your rate of omega gain, taking into account character sheet and server
+            boosts that may be active.
+            The Omega Week Worksheet helps analyze and plan the omega gain on each day of the omega week event.</p>
+    </header>
+
+    <div class="row panel">
+        <div class="small-4 columns">
+            <h2>1. Assumptions</h2>
+            <label for="seconds_per_run">
+                Seconds per run
+                <a href="#" tooltip="How long it takes to run your terminal of choice">?</a>
+            </label>
+            <input id="seconds_per_run" type="text" ng-model="model.seconds_per_run" coerce-integer>
+
+            <input id="omega_week_bonus" type="checkbox" ng-model="model.omega_week_bonus">
+            <label for="omega_week_bonus">
+                Omega Week Bonus
+                <a href="#" tooltip="You gain omegas 24% faster during omega week.">?</a>
+            </label>
+
+            <br>
+
+            <input id="cosmic_week_bonus" type="checkbox" ng-model="model.cosmic_week_bonus">
+            <label for="cosmic_week_bonus">
+                Cosmic Week Bonus
+                <a href="#" tooltip="You gain double XP orbs from cosmic bosses on cosmic week.">?</a>
+            </label>
+
+            <hr>
+            <p>The values below may be left unchanged.</p>
+
+            <label for="xp_per_orb">Unboosted XP Per Green Orb (Cosmic Term.)<sup>1</sup></label>
+            <input id="xp_per_orb" type="text" ng-model="model.xp_per_orb" coerce-integer>
+
+            <label for="omega_xp_per_orb">Omega XP Required Per Point<sup>2</sup></label>
+            <input id="omega_xp_per_orb" type="text" ng-model="model.omega_xp_per_orb" coerce-integer>
+
+            <label for="green_orbs_run">
+                Green Orbs per Run
+                <a href="#"
+                   tooltip="This can be determined by dividing the xp gained on a single run by the boosted value of a green orb. This value is based on Taskmaster's results; in the future other terminals will be checked.">?</a>
+            </label>
+            <input id="green_orbs_run" type="text" ng-model="model.green_orbs_run" coerce-float>
+
+            <label for="boss_mob_value_orbs">
+                Boss and Mob Value in Orbs
+                <a href="#"
+                   tooltip="This is taking one orb from Green Orbs per Run to account for minimal non-orb XP gain. This could be increased on terminals that require destroying many mobs, such as Kurse.">?</a>
+            </label>
+            <input id="boss_mob_value_orbs" type="text" ng-model="model.boss_mob_value_orbs" coerce-float>
+
+            <p>Reference:
+                <a href="http://forums.marvelheroes.com/discussion/comment/2512010#Comment_2512010" target="_blank">1</a>,
+                <a href="https://forums.marvelheroes.com/discussion/comment/2252456#Comment_2252456" target="_blank">2</a>
+            </p>
+        </div>
+
+        <div class="small-4 columns">
+            <h2>2. XP Boosts</h2>
+
+            <div class="row collapse">
+                <label for="boost_sheet">
+                    Character Sheet Boost
+                    <a href="#" tooltip="The total boost from your character's stat sheet.">?</a>
+                </label>
+
+                <div class="small-9 columns">
+                    <input id="boost_sheet" type="text" ng-model="model.boost_sheet" placeholder="200" coerce-integer>
+                </div>
+                <div class="small-3 columns">
+                    <span class="postfix">%</span>
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <label for="boost_server">
+                    Primary Server Boost
+                    <a class="right" href ng-click="openModalServerXP($event)">
+                        <small>Calculate</small>
+                    </a>
+                </label>
+
+                <div class="small-9 columns">
+                    <input id="boost_server" type="text" type="text" ng-model="model.boost_server" placeholder="0"
+                           coerce-integer>
+                </div>
+                <div class="small-3 columns">
+                    <span class="postfix">%</span>
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <label for="boost_server2">
+                    Secondary Server Boost
+                    <a href="#"
+                       tooltip="Sometimes there is a second multiplicative server-side boost, such as 50% XP for all avengers. Note that if  you used the server  boost calculator, this secondary boost is already incorporated into that figure.">?</a>
+                </label>
+
+                <div class="small-9 columns">
+                    <input id="boost_server2" type="text" type="text" ng-model="model.boost_server2" placeholder="0"
+                           coerce-integer>
+                </div>
+                <div class="small-3 columns">
+                    <span class="postfix">%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="small-4 columns">
+            <h2>3. Results</h2>
+            <table>
+                <tr>
+                    <th>
+                        XP per Run
+                        <a href="#"
+                           tooltip="This value may be cross-checked by observing the XP gain on an unleveled legendary, such as pot of gold.">?</a>
+                    </th>
+                    <td>{{model.xp_per_run | number:0}}</td>
+                </tr>
+                <tr>
+                    <th>Omega Orbs per Run</th>
+                    <td>{{model.omega_orbs_per_run | number:2}}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Runs per Boost-hour
+                        <a href="#" tooltip="This is time in terminal. So, an hour of boost.">?</a>
+                    </th>
+                    <td>{{model.runs_per_hour | number:2}}</td>
+                </tr>
+                <tr>
+                    <th>Omega Orbs per Boost-hour</th>
+                    <td>{{model.omega_orbs_per_hour | number:2}}</td>
+                </tr>
+            </table>
+
+            <div class="panel callout">
+                <p>Note that because some assumptions are estimates, the actual XP and omega orbs gained per run
+                <strong>are not precise</strong>.
+                Specifically, the <em>Omega XP per Orb</em>, <em>Green Orbs per Run</em>, and <em>Boss and Mob Value in
+                Orbs</em> are based on a combination of forum knowledge and testing. You are responsible for
+                validating these estimates for your specific situation if a precise result is needed.</p>
+                <p>The current estimates are based on testing in the Taskmaster cosmic terminal only.</p>
+            </div>
+
+        </div>
+
+    </div>
+    <!--/row-->
+
+    <div class="row panel">
+        <div class="small-12 columns">
+            <h2>Omega Week Worksheet</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>
+                        Primary Server XP Boost
+                        <a href="#"
+                           tooltip="Character sheet and secondary server XP boosts are also included in the calculations, but are not displayed in this table.">?</a>
+                    </th>
+                    <th>XP per Run</th>
+                    <th>Omega Orbs per Run</th>
+                    <th>Omega Orbs per Boost-hour</th>
+                    <th>Planned Boost-hours of Play</th>
+                    <th>Omegas Gained</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td colspan="5">TOTAL</td>
+                    <td>{{getTotalPlannedHours()}}</td>
+                    <td>{{getTotalOmegasGained() | number:0}}<sup>*</sup></td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr ng-repeat="row in weekModel">
+                    <td>{{$index + 1}}</td>
+                    <td>{{row.boost_server}}%</td>
+                    <td>{{row.xp_per_run | number:0}}</td>
+                    <td>{{row.omega_orbs_per_run | number:2}}</td>
+                    <td>{{row.omega_orbs_per_hour | number: 2}}</td>
+                    <td><input type="text" ng-model="row.planned_hours" ng-change="updateOmegasGained(row)"
+                               coerce-integer></td>
+                    <td>{{row.omegas_gained | number:0}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <p><sup>*</sup>This is an estimate. See the note in Results for details.</p>
+        </div>
+    </div>
+
+</section>

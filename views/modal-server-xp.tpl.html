@@ -1,0 +1,27 @@
+<h3>Server XP Calculator</h3>
+<p>To use, defeat a boss in a cosmic terminal. Observe the amount of XP gained from a single green orb.</p>
+
+<label for="modal1_base_orb_value">
+    Base Orb Value
+    <a href="#"
+       tooltip="Amount of XP gained from a single green orb from a cosmic boss during an unboosted week. This should not need to be changed.">?</a>
+</label>
+<input id="modal1_base_orb_value" type="text" ng-model="model.base_orb_value" coerce-integer>
+
+<label for="modal1_your_orb_value">
+    Your Orb Value
+    <a href="#"
+       tooltip="Amount of XP gained from a single green orb from a cosmic boss during a boosted week. Provide this value.">?</a>
+</label>
+<input id="modal1_your_orb_value" type="text" ng-model="model.your_orb_value" coerce-integer>
+
+<label for="modal1_sheet_xp_boost">
+    Sheet XP Boost
+    <a href="#" tooltip="The total boost from your character's stat sheet.">?</a>
+</label>
+<input id="modal1_sheet_xp_boost" type="text" ng-model="model.sheet_xp_boost" coerce-integer>
+
+<label for="modal1_server_xp">Server XP Boost</label>
+<p id="modal1_server_xp">{{model.server_xp | number:0}}%</p>
+
+<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
